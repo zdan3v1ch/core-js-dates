@@ -17,8 +17,8 @@
  * '01 Jan 1970 00:00:00 UTC' => 0
  * '04 Dec 1995 00:12:00 UTC' => 818035920000
  */
-function dateToTimestamp(/* date */) {
-  throw new Error('Not implemented');
+function dateToTimestamp(date) {
+  return Date.parse(date);
 }
 
 /**
@@ -31,8 +31,13 @@ function dateToTimestamp(/* date */) {
  * Date(2023, 5, 1, 8, 20, 55) => '08:20:55'
  * Date(2015, 10, 20, 23, 15, 1) => '23:15:01'
  */
-function getTime(/* date */) {
-  throw new Error('Not implemented');
+function getTime(date) {
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+  const timeString = `${hours}:${minutes}:${seconds}`;
+
+  return timeString;
 }
 
 /**
@@ -46,8 +51,35 @@ function getTime(/* date */) {
  * '03 Dec 1995 00:12:00 UTC' => 'Sunday'
  * '2024-01-30T00:00:00.000Z' => 'Tuesday'
  */
-function getDayName(/* date */) {
-  throw new Error('Not implemented');
+function getDayName(date) {
+  const newDate = new Date(date);
+  const weekDay = newDate.getDay();
+  let result;
+
+  switch (weekDay) {
+    case 0:
+      result = 'Sunday';
+      break;
+    case 1:
+      result = 'Monday';
+      break;
+    case 2:
+      result = 'Tuesday';
+      break;
+    case 3:
+      result = 'Wednesday';
+      break;
+    case 4:
+      result = 'Thursday';
+      break;
+    case 5:
+      result = 'Friday';
+      break;
+    default:
+      result = 'Saturday';
+  }
+
+  return result;
 }
 
 /**
@@ -61,8 +93,20 @@ function getDayName(/* date */) {
  * Date('2024-02-13T00:00:00Z') => Date('2024-02-16T00:00:00Z')
  * Date('2024-02-16T00:00:00Z') => Date('2024-02-23T00:00:00Z')
  */
-function getNextFriday(/* date */) {
-  throw new Error('Not implemented');
+function getNextFriday(date) {
+  const newDate = new Date(date);
+  const weekDay = newDate.getDay();
+  let plusDate = 0;
+  if (5 - weekDay < 0) {
+    plusDate = 6;
+  } else if (weekDay === 5) {
+    plusDate = 7;
+  } else {
+    plusDate = 5 - weekDay;
+  }
+  const day = newDate.getDate() + plusDate;
+  newDate.setDate(day);
+  return newDate;
 }
 
 /**
